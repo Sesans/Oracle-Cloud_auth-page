@@ -12,9 +12,21 @@ spring:
       ddl-auto: update
       properties:
         hibernate.format_sql: true
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
 
 logging:
   level:
     org:
       hibernate:
         type: trace
+
+api:
+  security:
+    token: ${JWT_SECRET}
+    issuer: auth-oracle
