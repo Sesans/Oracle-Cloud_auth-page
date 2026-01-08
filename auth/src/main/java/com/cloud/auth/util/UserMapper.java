@@ -1,10 +1,7 @@
 package com.cloud.auth.util;
 
 
-import com.cloud.auth.domain.Role;
-import com.cloud.auth.domain.User;
-import com.cloud.auth.domain.UserRequestDTO;
-import com.cloud.auth.domain.UserResponseDTO;
+import com.cloud.auth.domain.*;
 
 import java.time.LocalDateTime;
 
@@ -16,16 +13,17 @@ public class UserMapper {
                 dto.lastName(),
                 dto.email(),
                 dto.password(),
-                true,
                 Role.USER,
+                UserOrigin.LOCAL,
                 LocalDateTime.now()
         );
     }
 
-    public static UserResponseDTO entityToResponseDTO(User user){
+    public static UserResponseDTO entityToResponseDTO(User user, String token){
         return new UserResponseDTO(
                 user.getUuid(),
-                user.getEmail()
+                user.getEmail(),
+                token
         );
     }
 }

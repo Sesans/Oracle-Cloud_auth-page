@@ -27,13 +27,13 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
 
-    @Column(nullable = false)
     private String password;
-
-    private boolean enabled = true;
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @Enumerated(EnumType.STRING)
+    private UserOrigin userOrigin;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
