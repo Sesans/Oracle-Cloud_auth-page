@@ -2,7 +2,6 @@ package com.cloud.auth.security;
 
 import com.cloud.auth.domain.User;
 import com.cloud.auth.service.UserService;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
@@ -24,7 +23,7 @@ public class CustomOauth2SuccessHandler implements AuthenticationSuccessHandler 
     }
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         OAuth2User auth2User = (OAuth2User) authentication.getPrincipal();
         String name = auth2User.getAttribute("name");
         String email = auth2User.getAttribute("email");
