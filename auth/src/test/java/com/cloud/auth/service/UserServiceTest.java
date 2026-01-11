@@ -1,9 +1,6 @@
 package com.cloud.auth.service;
 
-import com.cloud.auth.domain.Role;
-import com.cloud.auth.domain.User;
-import com.cloud.auth.domain.UserRequestDTO;
-import com.cloud.auth.domain.UserResponseDTO;
+import com.cloud.auth.domain.*;
 import com.cloud.auth.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,7 +23,7 @@ class UserServiceTest {
     @InjectMocks
     UserService userService;
 
-    UserRequestDTO requestDTO;
+    UserRegisterDTO requestDTO;
     User user;
 
     @BeforeEach
@@ -37,10 +34,10 @@ class UserServiceTest {
         user.setLastName("santos");
         user.setEmail("leo@gmail.com");
         user.setPassword("1234");
-        user.setEnabled(true);
+        user.setUserOrigin(UserOrigin.LOCAL);
         user.setRole(Role.USER);
         user.setCreatedAt(LocalDateTime.now());
-        requestDTO = new UserRequestDTO(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword());
+        requestDTO = new UserRegisterDTO(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword());
     }
 
     @Test

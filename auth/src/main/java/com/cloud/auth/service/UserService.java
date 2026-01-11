@@ -16,7 +16,7 @@ public class UserService {
         this.tokenService = tokenService;
     }
 
-    public UserResponseDTO save(UserRequestDTO dto){
+    public UserResponseDTO save(UserRegisterDTO dto){
         User user = UserMapper.requestToEntity(dto);
         userRepository.save(user);
         String token = tokenService.generateToken(user);

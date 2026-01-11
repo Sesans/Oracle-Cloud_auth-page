@@ -1,12 +1,11 @@
 package com.cloud.auth.util;
 
-
 import com.cloud.auth.domain.*;
 
 import java.time.LocalDateTime;
 
 public class UserMapper {
-    public static User requestToEntity(UserRequestDTO dto){
+    public static User requestToEntity(UserRegisterDTO dto){
         return new User(
                 null,
                 dto.firstName(),
