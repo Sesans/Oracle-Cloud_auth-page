@@ -4,10 +4,13 @@ import com.cloud.auth.domain.*;
 import com.cloud.auth.repository.UserRepository;
 import com.cloud.auth.security.TokenService;
 import com.cloud.auth.util.UserMapper;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final TokenService tokenService;
 
@@ -38,5 +41,11 @@ public class UserService {
                     newUser.setUserOrigin(UserOrigin.valueOf(provider.toUpperCase()));
                     return userRepository.save(newUser);
                 });
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + email));
     }
 }
