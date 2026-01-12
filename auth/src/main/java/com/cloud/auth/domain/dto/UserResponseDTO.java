@@ -1,4 +1,4 @@
-package com.cloud.auth.domain;
+package com.cloud.auth.domain.dto;
 
 import java.util.UUID;
 

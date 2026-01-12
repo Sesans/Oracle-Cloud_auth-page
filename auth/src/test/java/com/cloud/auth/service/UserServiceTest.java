@@ -1,6 +1,8 @@
 package com.cloud.auth.service;
 
 import com.cloud.auth.domain.*;
+import com.cloud.auth.domain.dto.UserRegisterDTO;
+import com.cloud.auth.domain.dto.UserResponseDTO;
 import com.cloud.auth.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

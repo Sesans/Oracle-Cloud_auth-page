@@ -1,6 +1,8 @@
 package com.cloud.auth.util;
 
 import com.cloud.auth.domain.*;
+import com.cloud.auth.domain.dto.UserRegisterDTO;
+import com.cloud.auth.domain.dto.UserResponseDTO;
 
 import java.time.LocalDateTime;
 
