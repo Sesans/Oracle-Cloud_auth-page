@@ -1,30 +1,43 @@
 package com.cloud.auth.service;
 
 import com.cloud.auth.domain.*;
+import com.cloud.auth.domain.dto.UserRegisterDTO;
+import com.cloud.auth.domain.dto.UserResponseDTO;
+import com.cloud.auth.exception.BusinessException;
 import com.cloud.auth.repository.UserRepository;
 import com.cloud.auth.security.TokenService;
 import com.cloud.auth.util.UserMapper;
+import jakarta.transaction.Transactional;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final TokenService tokenService;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, TokenService tokenService) {
+    public UserService(UserRepository userRepository, TokenService tokenService, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.tokenService = tokenService;
+        this.passwordEncoder = passwordEncoder;
     }
 
+    @Transactional
     public UserResponseDTO save(UserRegisterDTO dto){
-        User user = UserMapper.requestToEntity(dto);
-        userRepository.save(user);
-        String token = tokenService.generateToken(user);
+        if(userRepository.existsByEmail(dto.email()))
+            throw new BusinessException("Email already registered!");
 
-        return UserMapper.entityToResponseDTO(user, token);
+        User user = UserMapper.requestToEntity(dto);
+
+        user.setPassword(passwordEncoder.encode(dto.password()));
+        User savedUser = userRepository.save(user);
+        String token = tokenService.generateToken(savedUser);
+
+        return UserMapper.entityToResponseDTO(savedUser, token);
     }
 
     public User upsert(String name, String email, String provider) {
