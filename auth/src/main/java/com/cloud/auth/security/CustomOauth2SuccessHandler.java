@@ -4,6 +4,7 @@ import com.cloud.auth.domain.User;
 import com.cloud.auth.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -14,6 +15,8 @@ import java.io.IOException;
 
 @Component
 public class CustomOauth2SuccessHandler implements AuthenticationSuccessHandler {
+    @Value("${api.provider.redirect}")
+    private String redirectURL;
     private final TokenService tokenService;
     private final UserService userService;
 
@@ -35,6 +38,6 @@ public class CustomOauth2SuccessHandler implements AuthenticationSuccessHandler 
 
         String token = tokenService.generateToken(user);
 
-        response.sendRedirect("http://localhost:5173/auth/callback?token=" + token);
+        response.sendRedirect(redirectURL + token);
     }
 }

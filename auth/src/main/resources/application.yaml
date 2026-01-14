@@ -27,6 +27,8 @@ logging:
         type: trace
 
 api:
+  provider:
+    redirect: ${CALLBACK_URL}
   security:
     token: ${JWT_SECRET}
     issuer: auth-oracle
