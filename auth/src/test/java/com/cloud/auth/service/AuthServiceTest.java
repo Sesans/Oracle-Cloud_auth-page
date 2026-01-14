@@ -3,8 +3,8 @@ package com.cloud.auth.service;
 import com.cloud.auth.domain.Role;
 import com.cloud.auth.domain.User;
 import com.cloud.auth.domain.UserOrigin;
+import com.cloud.auth.domain.dto.AuthResponseWrapper;
 import com.cloud.auth.domain.dto.UserLoginDTO;
-import com.cloud.auth.domain.dto.UserResponseDTO;
 import com.cloud.auth.exception.InvalidCredentials;
 import com.cloud.auth.security.TokenService;
 import org.junit.jupiter.api.BeforeEach;
@@ -56,10 +56,10 @@ class AuthServiceTest {
         when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class))).thenReturn(auth);
         when(tokenService.generateToken(user)).thenReturn("valid-token");
 
-        UserResponseDTO response = authService.login(dto);
+        AuthResponseWrapper response = authService.login(dto);
 
         assertNotNull(response);
-        assertEquals("valid-token", response.token());
+        assertEquals("valid-token", response.responseDTO().token());
         verify(tokenService).generateToken(user);
     }
 

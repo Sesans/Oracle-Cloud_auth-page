@@ -1,8 +1,8 @@
 package com.cloud.auth.service;
 
 import com.cloud.auth.domain.*;
+import com.cloud.auth.domain.dto.AuthResponseWrapper;
 import com.cloud.auth.domain.dto.UserRegisterDTO;
-import com.cloud.auth.domain.dto.UserResponseDTO;
 import com.cloud.auth.exception.BusinessException;
 import com.cloud.auth.repository.UserRepository;
 import com.cloud.auth.security.TokenService;
@@ -55,9 +55,9 @@ class UserServiceTest {
         when(userRepository.existsByEmail(anyString())).thenReturn(false);
         when(userRepository.save(any(User.class))).thenReturn(user);
 
-        UserResponseDTO responseDTO = userService.save(requestDTO);
+        AuthResponseWrapper wrapper = userService.save(requestDTO);
 
-        assertEquals(user.getEmail(), responseDTO.email());
+        assertEquals(user.getEmail(), wrapper.responseDTO().email());
 
         verify(userRepository, times(1)).save(any(User.class));
     }
