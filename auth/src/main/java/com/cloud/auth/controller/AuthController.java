@@ -64,4 +64,23 @@ public class AuthController {
                 .header(HttpHeaders.SET_COOKIE, updatedAuth.cookie().toString())
                 .body(updatedAuth.responseDTO());
     }
+
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout(@CookieValue(name = "refreshToken", required = false) String refreshToken){
+        if(refreshToken != null){
+            ResponseCookie cleanedCookie = authService.logout(refreshToken);
+            return ResponseEntity.noContent()
+                    .header(HttpHeaders.SET_COOKIE, cleanedCookie.toString())
+                    .build();
+        }
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<UserResponseDTO> getCurrentUser(@AuthenticationPrincipal Jwt jwt) {
+        String userUuid = jwt.getSubject();
+        String email = jwt.getClaimAsString("email");
+
+        return ResponseEntity.ok(new UserResponseDTO(UUID.fromString(userUuid), email, jwt.getTokenValue()));
+    }
 }

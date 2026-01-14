@@ -59,4 +59,17 @@ public class AuthService {
         }
     }
 
+    @Transactional
+    public ResponseCookie logout(String refreshToken){
+        tokenRepository.findByToken(refreshToken)
+                .ifPresent(tokenRepository::delete);
+
+        return ResponseCookie.from("refreshToken", "")
+                .httpOnly(true)
+                .secure(false)
+                .path("/")
+                .maxAge(0)
+                .sameSite("Strict")
+                .build();
+    }
 }
