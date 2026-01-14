@@ -1,0 +1,6 @@
+api:
+  provider:
+    redirect: http://localhost
+  security:
+    token: jwt-secret
+    issuer: auth-oracle
