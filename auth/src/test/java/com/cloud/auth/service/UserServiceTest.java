@@ -5,6 +5,7 @@ import com.cloud.auth.domain.dto.AuthResponseWrapper;
 import com.cloud.auth.domain.dto.UserRegisterDTO;
 import com.cloud.auth.exception.BusinessException;
 import com.cloud.auth.repository.UserRepository;
+import com.cloud.auth.security.RefreshTokenService;
 import com.cloud.auth.security.TokenService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -23,6 +25,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@ActiveProfiles("test")
 class UserServiceTest {
     @Mock
     UserRepository userRepository;
@@ -30,9 +33,12 @@ class UserServiceTest {
     PasswordEncoder passwordEncoder;
     @Mock
     TokenService tokenService;
+    @Mock
+    RefreshTokenService refreshTokenService;
     @InjectMocks
     UserService userService;
 
+    RefreshToken refreshToken;
     UserRegisterDTO requestDTO;
     User user;
 
@@ -48,12 +54,15 @@ class UserServiceTest {
         user.setRole(Role.USER);
         user.setCreatedAt(LocalDateTime.now());
         requestDTO = new UserRegisterDTO(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword());
+        refreshToken = new RefreshToken();
+        refreshToken.setToken(UUID.randomUUID().toString());
     }
 
     @Test
     void save_shouldCreateUserSuccessfully() {
         when(userRepository.existsByEmail(anyString())).thenReturn(false);
         when(userRepository.save(any(User.class))).thenReturn(user);
+        when(refreshTokenService.createRefreshToken(any(User.class))).thenReturn(refreshToken);
 
         AuthResponseWrapper wrapper = userService.save(requestDTO);
 
