@@ -43,6 +43,8 @@ Docker used for containerization, ensuring a consistent, isolated, and reproduci
 | `Password`| `String` | **Required**. Create a password  |
 
 
+* Passwords must be at least 8 characters long, including 1 uppercase, 1 lowercase, a number and a special character
+
 
 #### Login
 

@@ -1,0 +1,39 @@
+# Arquivos de variáveis de ambiente
+.env
+.env.local
+.env.*.local
+
+# IDEs (como IntelliJ IDEA, VSCode etc.)
+.idea/
+*.iml
+.vscode/
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+
+# Sistemas operacionais
+.DS_Store
+Thumbs.db
+
+# Diretórios de dependências
+node_modules/
+target/
+
+# Docker volumes (bancos de dados)
+**/db-data*/
+*.pid
+
+# Arquivos temporários
+*.swp
+*.swo
+*.bak
+*.tmp
+
+# Arquivos sensíveis
+*.key
+*.pem
+*.crt
+secret.*
+secrets.*
